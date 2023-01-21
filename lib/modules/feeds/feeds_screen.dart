@@ -13,56 +13,62 @@ class FeedsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SocialCubit,SocialStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return ConditionalBuilder(
-          //
-          condition: SocialCubit.get(context).posts.isNotEmpty,
-          builder: (context) => SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                // Card(
-                //   elevation: 5.0,
-                //   clipBehavior: Clip.antiAliasWithSaveLayer,
-                //   margin: EdgeInsets.all(8.0),
-                //   child: Stack(
-                //     alignment: AlignmentDirectional.bottomEnd,
-                //     children: [
-                //       Image(
-                //         image: NetworkImage(
-                //             'https://img.freepik.com/free-photo/glamorous-dark-haired-woman-cute-attire-making-selfie-street-with-yellow-bicycle-background-outdoor-photo-girl-trendy-outfit-standing-near-laptop_197531-25501.jpg?w=740&t=st=1673797387~exp=1673797987~hmac=680905de8d672c18ac036a930196cef2ec7b6bc9c8ce98a02e6331772923432e'),
-                //         height: 200.0,
-                //         width: double.infinity,
-                //         fit: BoxFit.cover,
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.all(10.0),
-                //         child: Text(
-                //           'Keep in touch with friends',
-                //           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                //                 color: Colors.white,
-                //               ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => buildPostItem(context,SocialCubit.get(context).posts[index],SocialCubit.get(context).userModel!,index),
-                  separatorBuilder: (context, index) => SizedBox(height: 10.0,),
-                  itemCount: SocialCubit.get(context).posts.length,
-                ),
-                SizedBox(height: 10.0,),
-              ],
+    return Builder(
+
+      builder: (context) {
+        SocialCubit.get(context).getPosts();
+        return BlocConsumer<SocialCubit,SocialStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return ConditionalBuilder(
+            condition: SocialCubit.get(context).posts.isNotEmpty && SocialCubit.get(context).userModel!= null ,
+            builder: (context) => SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  // Card(
+                  //   elevation: 5.0,
+                  //   clipBehavior: Clip.antiAliasWithSaveLayer,
+                  //   margin: EdgeInsets.all(8.0),
+                  //   child: Stack(
+                  //     alignment: AlignmentDirectional.bottomEnd,
+                  //     children: [
+                  //       Image(
+                  //         image: NetworkImage(
+                  //             'https://img.freepik.com/free-photo/glamorous-dark-haired-woman-cute-attire-making-selfie-street-with-yellow-bicycle-background-outdoor-photo-girl-trendy-outfit-standing-near-laptop_197531-25501.jpg?w=740&t=st=1673797387~exp=1673797987~hmac=680905de8d672c18ac036a930196cef2ec7b6bc9c8ce98a02e6331772923432e'),
+                  //         height: 200.0,
+                  //         width: double.infinity,
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //       Padding(
+                  //         padding: const EdgeInsets.all(10.0),
+                  //         child: Text(
+                  //           'Keep in touch with friends',
+                  //           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  //                 color: Colors.white,
+                  //               ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => buildPostItem(context,SocialCubit.get(context).posts[index],SocialCubit.get(context).userModel!,index),
+                    separatorBuilder: (context, index) => SizedBox(height: 10.0,),
+                    itemCount: SocialCubit.get(context).posts.length,
+                  ),
+                  SizedBox(height: 10.0,),
+                ],
+              ),
             ),
-          ),
-          fallback: (context) => Center(child: CircularProgressIndicator()),
-        );
-      },
+            fallback: (context) => Center(child: CircularProgressIndicator()),
+          );
+        },
+
+      );
+        },
 
     );
   }

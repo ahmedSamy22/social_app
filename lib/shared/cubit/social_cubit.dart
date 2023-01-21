@@ -258,19 +258,25 @@ class SocialCubit extends Cubit<SocialStates> {
         .orderBy('dateTime', descending: true,)
         .snapshots()
         .listen((event) {
+      posts = [];
+      postsId = [];
+      comments = [];
+      likes = [];
       for (var element in event.docs) {
+
         element.reference
             .collection('likes')
             .snapshots()
             .listen((eventLike) {
+
           element.reference
               .collection('comments')
               .snapshots()
               .listen((event) {
-            likes.add(eventLike.docs.length);
-            comments.add(event.docs.length);
             postsId.add(element.id);
             posts.add(PostModel.fromJson(element.data()));
+            comments.add(event.docs.length);
+            likes.add(eventLike.docs.length);
             emit(SocialGetPostsSuccessState());
           });
 
@@ -288,7 +294,8 @@ class SocialCubit extends Cubit<SocialStates> {
         .set({
       'like': true,
     }).then((value) {
-      emit(SocialLikePostSuccessState());
+      getPosts();
+    //  emit(SocialLikePostSuccessState());
     }).catchError((error) {
       emit(SocialLikePostErrorState());
     });
@@ -303,7 +310,8 @@ class SocialCubit extends Cubit<SocialStates> {
         .set({
       'comment': comment,
     }).then((value) {
-      emit(SocialCommentPostSuccessState());
+      getPosts();
+     // emit(SocialCommentPostSuccessState());
     }).catchError((error) {
       emit(SocialCommentPostErrorState());
     });
