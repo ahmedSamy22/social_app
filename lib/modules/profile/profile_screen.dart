@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/modules/edit_profile/edit_profile.dart';
+import 'package:social_app/modules/login/login_screen.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/cubit/social_cubit.dart';
 import 'package:social_app/shared/cubit/social_states.dart';
+import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icons_broken.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,7 +14,12 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit,SocialStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SocialSignOutSuccessState) {
+          navigateAndFinish(context, LoginScreen());
+          uId='';
+        }
+      },
       builder: (context, state) {
 
         var userModel=SocialCubit.get(context).userModel;
@@ -147,7 +155,13 @@ class ProfileScreen extends StatelessWidget {
                       }, child: Icon(IconBroken.Edit)),
                 ],
               ),
-
+              SizedBox(height: 10.0,),
+              MaterialButton(onPressed: (){
+                SocialCubit.get(context).logOut();
+              },
+                child: Text('Logout',style: TextStyle(color: Colors.white),),
+              color: defaultColor,
+              ),
             ],
           ),
         );

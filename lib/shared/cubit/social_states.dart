@@ -1,5 +1,3 @@
-import 'package:social_app/models/user_model.dart';
-
 abstract class SocialStates {}
 
 class SocialInitialState extends SocialStates{}
@@ -88,5 +86,11 @@ class SocialSendMessageSuccessState extends SocialStates{}
 class SocialSendMessageErrorState extends SocialStates{}
 
 class SocialGetMessageSuccessState extends SocialStates{}
+
+class SocialSignOutSuccessState extends SocialStates{}
+
+class SocialSignOutErrorState extends SocialStates{}
+
+
 
 

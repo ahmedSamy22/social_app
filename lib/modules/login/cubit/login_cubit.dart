@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/modules/login/cubit/login_states.dart';
 import 'package:social_app/shared/components/constants.dart';
-import 'package:social_app/shared/cubit/social_cubit.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 
 class LoginCubit extends Cubit<LoginStates>

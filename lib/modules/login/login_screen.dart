@@ -7,8 +7,6 @@ import 'package:social_app/modules/login/cubit/login_states.dart';
 import 'package:social_app/modules/register/register_screen.dart';
 
 import 'package:social_app/shared/components/components.dart';
-import 'package:social_app/shared/cubit/social_cubit.dart';
-import 'package:social_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
@@ -27,6 +25,7 @@ class LoginScreen extends StatelessWidget {
 
           if (state is LoginSuccessState) {
             navigateAndFinish(context, HomeScreen());
+
           }
         },
         builder: (context, state) {

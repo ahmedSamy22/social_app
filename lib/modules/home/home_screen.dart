@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/modules/add_post/add_post_screen.dart';
@@ -12,69 +11,75 @@ import 'package:social_app/shared/styles/icons_broken.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SocialCubit, SocialStates>(
-      listener: (context, state) {
+    return Builder(
+      builder: (context) {
+        SocialCubit.get(context).getUserData();
+        return BlocConsumer<SocialCubit, SocialStates>(
+          listener: (context, state) {
 
-      },
-      builder: (context, state) {
-        var cubit = SocialCubit.get(context);
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(cubit.titles[cubit.currentIndex]),
-            titleSpacing: 20.0,
-            actions: [
-              IconButton(
-                onPressed: ()
-                {
-                  navigateTo(context, NotificationsScreen());
+          },
+          builder: (context, state) {
+            var cubit = SocialCubit.get(context);
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(cubit.titles[cubit.currentIndex]),
+                titleSpacing: 20.0,
+                actions: [
+                  IconButton(
+                    onPressed: ()
+                    {
+                      navigateTo(context, NotificationsScreen());
+                    },
+                    icon: Icon(IconBroken.Notification),
+                  ),
+                  IconButton(
+                    onPressed: ()
+                    {
+                      navigateTo(context, SearchScreen());
+                    },
+                    icon: Icon(IconBroken.Search),
+                  ),
+                ],
+              ),
+              body: cubit.screens[cubit.currentIndex],
+
+              floatingActionButton:FloatingActionButton(
+                onPressed: (){
+                  navigateTo(context, AddPostScreen());
                 },
-                icon: Icon(IconBroken.Notification),
+                child: Icon(IconBroken.Upload),
               ),
-              IconButton(
-                onPressed: ()
-                {
-                  navigateTo(context, SearchScreen());
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+              bottomNavigationBar: BottomNavigationBar(
+                onTap: (index) {
+                  cubit.changeBNav(index);
                 },
-                icon: Icon(IconBroken.Search),
+                currentIndex: cubit.currentIndex,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(IconBroken.Home),
+                    label: 'Feeds',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(IconBroken.Chat),
+                    label: 'Chats',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(IconBroken.User),
+                    label: 'Users',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(IconBroken.Profile),
+                    label: 'Profile',
+                  ),
+                ],
               ),
-            ],
-          ),
-          body: cubit.screens[cubit.currentIndex],
-
-          floatingActionButton:FloatingActionButton(
-            onPressed: (){
-              navigateTo(context, AddPostScreen());
-            },
-            child: Icon(IconBroken.Upload),
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-          bottomNavigationBar: BottomNavigationBar(
-            onTap: (index) {
-              cubit.changeBNav(index);
-            },
-            currentIndex: cubit.currentIndex,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(IconBroken.Home),
-                label: 'Feeds',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(IconBroken.Chat),
-                label: 'Chats',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(IconBroken.User),
-                label: 'Users',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(IconBroken.Profile),
-                label: 'Profile',
-              ),
-            ],
-          ),
+            );
+          },
         );
       },
+
     );
   }
 }

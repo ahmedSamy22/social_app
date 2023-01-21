@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/models/messageModel.dart';
@@ -397,6 +398,18 @@ class SocialCubit extends Cubit<SocialStates> {
         messages.add(MessageModel.fromJson(element.data()));
       });
       emit(SocialGetMessageSuccessState());
+    });
+  }
+
+
+  Future<void>  logOut()async
+  {
+   await FirebaseAuth.instance
+        .signOut()
+        .then((value) {
+          emit(SocialSignOutSuccessState());
+    }).catchError((error){
+      emit(SocialSignOutErrorState());
     });
   }
 }
